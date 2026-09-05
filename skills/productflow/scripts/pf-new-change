@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""Scaffold a change folder from the templates."""
+
+import argparse
+import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import _pflib as pf
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        prog="pf-new-change",
+        description="Create docs/changes/<slug>/ with change.md, requirements.md, tasks.md (and design.md with --design).",
+    )
+    parser.add_argument("slug", help="change slug, matching ^[a-z0-9][a-z0-9-]*$")
+    parser.add_argument("--title", default=None, help="human title (default: slug words capitalized)")
+    parser.add_argument("--design", action="store_true", help="also create design.md")
+    parser.add_argument(
+        "--classification",
+        choices=sorted(pf.CHANGE_CLASSIFICATIONS),
+        default=None,
+        help="bounded or architectural (default: architectural with --design, else bounded)",
+    )
+    return parser
+
+
+def run(argv):
+    args = build_parser().parse_args(argv)
+    slug = args.slug
+    if not pf.RE_SLUG.match(slug):
+        raise pf.PfError(2, "invalid slug %r: must match ^[a-z0-9][a-z0-9-]*$" % slug)
+
+    root = pf.find_root(Path.cwd())
+    config = pf.load_config(root)
+    folder = pf.changes_root(root, config) / slug
+    if folder.exists():
+        raise pf.PfError(4, "change already exists: %s" % pf.rel(root, folder))
+
+    title = args.title or slug.replace("-", " ").capitalize()
+    classification = args.classification or ("architectural" if args.design else "bounded")
+    mapping = {
+        "SLUG": slug,
+        "TITLE": title,
+        "DATE": pf.today(),
+        "CLASSIFICATION": classification,
+    }
+
+    created = []
+    for name in ["change.md", "requirements.md", "tasks.md"]:
+        pf.write_text(folder / name, pf.render_template(name, mapping))
+        created.append(pf.rel(root, folder / name))
+    if args.design:
+        pf.write_text(folder / "design.md", pf.render_template("design.md", mapping))
+        created.append(pf.rel(root, folder / "design.md"))
+
+    pf.write_index(root, config)
+
+    pf.emit(
+        {
+            "ok": True,
+            "slug": slug,
+            "title": title,
+            "classification": classification,
+            "path": pf.rel(root, folder),
+            "created": sorted(created),
+        }
+    )
+    return 0
+
+
+main = pf.main_wrapper(run)
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+"""Archive a completed change after its delta has been merged into the PRD tree."""
+
+import argparse
+import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import _pflib as pf
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        prog="pf-archive",
+        description="Move a finished change into docs/changes/archive/<date>-<slug>/ and refresh the index.",
+    )
+    parser.add_argument("slug", help="change slug to archive")
+    parser.add_argument("--date", default=None, help="archive date (default: today), YYYY-MM-DD")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="archive even if tasks are unchecked or the delta looks unmerged",
+    )
+    return parser
+
+
+def run(argv):
+    args = build_parser().parse_args(argv)
+    root = pf.find_root(Path.cwd())
+    config = pf.load_config(root)
+
+    slug = args.slug
+    if not pf.RE_SLUG.match(slug):
+        raise pf.PfError(2, "invalid slug %r: must match ^[a-z0-9][a-z0-9-]*$" % slug)
+    folder = pf.changes_root(root, config) / slug
+    if not folder.is_dir():
+        raise pf.PfError(2, "no such change: %s" % pf.rel(root, folder))
+
+    archive_date = args.date or pf.today()
+    if not pf.RE_DATE.match(archive_date):
+        raise pf.PfError(2, "--date must be YYYY-MM-DD")
+
+    tasks_path = folder / "tasks.md"
+    open_tasks = []
+    if tasks_path.is_file():
+        tasks = pf.parse_tasks(tasks_path)
+        open_tasks = [i["num"] for i in tasks["items"] if not i["done"]]
+    if open_tasks and not args.force:
+        raise pf.PfError(
+            5,
+            "change has %d unchecked task(s): %s" % (len(open_tasks), ", ".join(open_tasks)),
+        )
+
+    missing, lingering = [], []
+    delta_path = folder / "requirements.md"
+    if delta_path.is_file():
+        delta = pf.parse_delta(delta_path)
+        missing, lingering = pf.unmerged_delta_ids(root, config, delta)
+    if (missing or lingering) and not args.force:
+        parts = []
+        if missing:
+            parts.append("not merged into any PRD: %s" % ", ".join(missing))
+        if lingering:
+            parts.append("still present after REMOVED: %s" % ", ".join(lingering))
+        raise pf.PfError(6, "delta not merged — " + "; ".join(parts))
+
+    change_path = folder / "change.md"
+    if change_path.is_file():
+        text = change_path.read_text(encoding="utf-8")
+        fields, body, errors = pf.parse_frontmatter(text)
+        if errors:
+            raise pf.PfError(2, "%s: %s" % (pf.rel(root, change_path), errors[0]))
+        fields["status"] = "archived"
+        fields["archived"] = archive_date
+        change_path.write_text(pf.dump_frontmatter(fields) + body, encoding="utf-8")
+
+    dest = pf.changes_root(root, config) / "archive" / ("%s-%s" % (archive_date, slug))
+    if dest.exists():
+        raise pf.PfError(4, "archive target already exists: %s" % pf.rel(root, dest))
+    pf.move_tree(folder, dest)
+
+    pf.write_index(root, config)
+    findings = pf.validate(root, config)
+    errors = [f for f in findings if f["level"] == "error"]
+
+    pf.emit(
+        {
+            "ok": True,
+            "slug": slug,
+            "archived": archive_date,
+            "path": pf.rel(root, dest),
+            "forced": bool(args.force),
+            "open_tasks": open_tasks,
+            "validate_errors": len(errors),
+        }
+    )
+    if errors:
+        for f in errors:
+            sys.stderr.write(
+                "%s:%s: error [%s] %s\n" % (f["path"], f["line"] or 0, f["code"], f["message"])
+            )
+    return 0
+
+
+main = pf.main_wrapper(run)
+
+if __name__ == "__main__":
+    sys.exit(main())

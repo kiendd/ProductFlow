@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""Regenerate docs/product/index.md and manifest.json."""
+
+import argparse
+import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import _pflib as pf
+
+
+def build_parser():
+    return argparse.ArgumentParser(
+        prog="pf-index",
+        description="Rebuild the generated index.md and manifest.json from the docs and change trees.",
+    )
+
+
+def run(argv):
+    build_parser().parse_args(argv)
+    root = pf.find_root(Path.cwd())
+    config = pf.load_config(root)
+    manifest = pf.write_index(root, config)
+    pf.emit(
+        {
+            "ok": True,
+            "manifest": pf.rel(root, pf.docs_root(root, config) / "manifest.json"),
+            "index": pf.rel(root, pf.docs_root(root, config) / "index.md"),
+            "documents": len(manifest["documents"]),
+            "requirements": len(pf.manifest_req_ids(manifest)),
+            "active_changes": len(manifest["changes"]["active"]),
+            "archived_changes": len(manifest["changes"]["archived"]),
+        }
+    )
+    return 0
+
+
+main = pf.main_wrapper(run)
+
+if __name__ == "__main__":
+    sys.exit(main())

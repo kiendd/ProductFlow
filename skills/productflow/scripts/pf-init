@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""Initialize ProductFlow in the current repository."""
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import _pflib as pf
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        prog="pf-init",
+        description="Create .productflow/config.json, the product docs skeleton, and the changes folder.",
+    )
+    parser.add_argument("--docs-root", default=pf.DEFAULT_CONFIG["docs_root"], help="product docs directory")
+    parser.add_argument(
+        "--changes-root", default=pf.DEFAULT_CONFIG["changes_root"], help="changes directory"
+    )
+    parser.add_argument("--locale", choices=["vi", "en"], default="vi", help="language of generated PRD prose")
+    parser.add_argument("--title", default="Product", help="title of the top-level PRD")
+    parser.add_argument("--at", default=".", help="repository root to initialize (default: cwd)")
+    return parser
+
+
+def run(argv):
+    args = build_parser().parse_args(argv)
+    root = Path(args.at).resolve()
+    if not root.is_dir():
+        raise pf.PfError(2, "not a directory: %s" % root)
+
+    config_path = root / pf.CONFIG_DIR / pf.CONFIG_NAME
+    if config_path.is_file():
+        raise pf.PfError(3, "already initialized: %s exists" % pf.rel(root, config_path))
+
+    config = dict(pf.DEFAULT_CONFIG)
+    config["docs_root"] = args.docs_root.strip("/")
+    config["changes_root"] = args.changes_root.strip("/")
+    config["prd_locale"] = args.locale
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    config_path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    config = pf.load_config(root)
+    docs = pf.docs_root(root, config)
+    docs.mkdir(parents=True, exist_ok=True)
+    pf.changes_root(root, config).mkdir(parents=True, exist_ok=True)
+
+    created_prd = False
+    prd_path = docs / "PRD.md"
+    if not prd_path.is_file():
+        pf.write_text(
+            prd_path,
+            pf.render_template(
+                "prd.md",
+                {
+                    "ID": "product",
+                    "TITLE": args.title,
+                    "TYPE": "product",
+                    "DOMAIN": "product",
+                    "PARENT": "",
+                    "STATUS": "draft",
+                    "DATE": pf.today(),
+                },
+            ),
+        )
+        created_prd = True
+
+    gitignore_changed = pf.ensure_gitignore(root)
+    manifest = pf.write_index(root, config)
+
+    pf.emit(
+        {
+            "ok": True,
+            "root": str(root),
+            "config": pf.rel(root, config_path),
+            "docs_root": config["docs_root"],
+            "changes_root": config["changes_root"],
+            "locale": config["prd_locale"],
+            "created_product_prd": created_prd,
+            "gitignore_updated": gitignore_changed,
+            "documents": len(manifest["documents"]),
+        }
+    )
+    return 0
+
+
+main = pf.main_wrapper(run)
+
+if __name__ == "__main__":
+    sys.exit(main())
