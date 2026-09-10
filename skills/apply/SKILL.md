@@ -11,7 +11,7 @@ Execute `tasks.md` in order, with evidence for every completed task.
 
 | Harness | Mode | Shape |
 |---|---|---|
-| Can dispatch subagents | **subagent** | One fresh agent per task, a review after each task, one overall review at the end |
+| Can dispatch subagents | **subagent** | One fresh agent per task; a review after each `## <n>` task group; one overall review at the end |
 | Cannot | **inline** | Sequential in this session, checkpoint with the user after each `## <n>` group |
 
 Announce the mode you chose and why. The user may force the other one.
@@ -56,6 +56,11 @@ For each unchecked task, in order:
 Never tick a checkbox from expectation, from "it should pass", or from a previous run. No
 observed successful output means the task is not done.
 
+**Review cadence (subagent mode).** Do not dispatch a reviewer after every task. When every task
+under a `## <n>` group is ticked, dispatch one reviewer over that group's combined diff using
+`reviewer-prompt.md`. A blocker finding sends you back to the failing task before the next group
+starts. Run one final review over the whole change at close-out (Step 6).
+
 ## Step 4 — Decide, or stop and ask
 
 Stop and ask the user in exactly four situations:
@@ -97,7 +102,7 @@ Each of these: make the edit, append one `Ruling:` line, run
   behavior no existing `**Statement**` covers.
 - Change a requirement's `**Statement**`.
 - Change `## Scope` in `change.md`.
-- Reverse a decision in `design.md`.
+- Reverse a decision in the `## Design` section of `change.md`.
 - Add a new `## <n>` task group.
 
 After `update` finishes and the user approves, come back and resume at the task you were on.
@@ -110,9 +115,11 @@ Never quietly change the code to avoid a documentation mismatch. The mismatch is
 
 1. Every checkbox in `tasks.md` is `- [x]` with a matching ledger line.
 2. Run the project's full test suite; read the output.
-3. Set `status: implemented` in `change.md`.
-4. Run `../productflow/scripts/pf-validate`; fix every `error`.
-5. Hand off to `productflow:archive`.
+3. Subagent mode: dispatch one final reviewer over the whole change's diff using
+   `reviewer-prompt.md`; resolve every `blocker` before continuing.
+4. Set `status: implemented` in `change.md`.
+5. Run `../productflow/scripts/pf-validate`; fix every `error`.
+6. Hand off to `productflow:archive`.
 
 Tests failing at step 2 means the change is not implemented. Fix them here; archiving cannot
 start on a red suite.

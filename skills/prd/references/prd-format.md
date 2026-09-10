@@ -16,12 +16,11 @@ docs/
         PRD.md             # type: capability (one further level allowed)
   changes/
     <slug>/
-      change.md            # why / what / scope / classification
+      change.md            # why / what / scope / classification / design / outcome
       requirements.md      # delta: ADDED / MODIFIED / REMOVED / RENAMED
-      design.md            # only when the change needs it
       tasks.md             # execution checklist
     archive/
-      YYYY-MM-DD-<slug>/   # the four files above plus outcome.md
+      YYYY-MM-DD-<slug>/   # the three files above
 .productflow/
   config.json              # committed
   runs/<slug>/progress.md  # execution ledger — gitignored
@@ -156,6 +155,10 @@ domains: [billing]
 ### Out of scope
 
 ## Impact
+
+## Design
+
+## Outcome
 ```
 
 `status` ∈ `draft|planned|in-progress|implemented|archived`.
@@ -215,13 +218,14 @@ change: add-invoice-pdf
 Checkboxes match `^- \[( |x)\] (\d+\.\d+) (.+)$`. Every checkbox carries ` — verify: ` and the
 three child lines `Requirements:`, `Files:`, `Steps:`. Violations are `task-format`.
 
-## 8. design.md and outcome.md
+## 8. Design and Outcome sections of change.md
 
-`design.md` (only when the change needs it) uses H2 sections: `Context`, `Decisions`,
-`Risks & Trade-offs`, `Migration`, `Open Questions`.
+`## Design` (filled by `productflow:plan`, only for architectural changes; left empty otherwise)
+uses H3 sub-sections: `Context`, `Decisions`, `Risks & Trade-offs`, `Migration`,
+`Open Questions`.
 
-`outcome.md` (written at archive time) uses H2 sections: `Shipped`, `Requirements merged`,
-`Deviations from plan`, `Commits`, `Follow-ups`.
+`## Outcome` (filled by `productflow:archive` at archive time) uses H3 sub-sections: `Shipped`,
+`Requirements merged`, `Deviations from plan`, `Commits`, `Follow-ups`.
 
 ## 9. manifest.json
 

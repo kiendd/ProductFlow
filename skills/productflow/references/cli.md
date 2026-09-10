@@ -9,7 +9,7 @@ from there. All paths they print are relative to that root.
 | Command | What it does | Exit |
 |---|---|---|
 | `pf-init [--docs-root P] [--changes-root P] [--locale vi\|en] [--title T]` | Creates `.productflow/config.json`, the top-level `docs/product/PRD.md` skeleton, `docs/changes/`, the `.gitignore` entry, then runs the indexer | `0`; `3` already initialized |
-| `pf-new-change <slug> [--title T] [--design] [--classification bounded\|architectural]` | Creates `docs/changes/<slug>/` from the templates; `design.md` only with `--design` | `0`; `2` bad slug; `4` already exists |
+| `pf-new-change <slug> [--title T] [--classification bounded\|architectural]` | Creates `docs/changes/<slug>/` (`change.md`, `requirements.md`, `tasks.md`) from the templates; default classification `bounded` | `0`; `2` bad slug; `4` already exists |
 | `pf-reqid <domain> [--count N]` | Prints the next N unused requirement IDs, one per line | `0`; `2` bad usage |
 | `pf-index` | Regenerates `docs/product/index.md` and `docs/product/manifest.json` | `0` |
 | `pf-validate [--json] [--path P]` | Runs every format rule plus internal links and manifest freshness | `0` clean; `1` findings exist |
@@ -48,7 +48,7 @@ the archive, so parallel changes never collide. Never reuse a retired number.
 Start a change:
 
 ```bash
-pf-new-change add-invoice-pdf --design
+pf-new-change add-invoice-pdf --classification architectural
 pf-reqid billing --count 2
 ```
 

@@ -50,8 +50,8 @@ propose  →  plan  →  apply  →  archive
 ```
 docs/product/            # source of truth, one PRD.md per domain/capability
   PRD.md  index.md  manifest.json   # index.md + manifest.json are generated
-docs/changes/<slug>/     # change.md, requirements.md, [design.md], tasks.md
-docs/changes/archive/    # YYYY-MM-DD-<slug>/ + outcome.md
+docs/changes/<slug>/     # change.md, requirements.md, tasks.md
+docs/changes/archive/    # YYYY-MM-DD-<slug>/
 .productflow/config.json # committed config
 .productflow/runs/       # execution ledgers (gitignored)
 ```

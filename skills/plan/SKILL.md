@@ -12,22 +12,22 @@ Turn an agreed delta into a task list a fresh agent could execute without asking
 `docs/changes/<slug>/change.md` and `requirements.md` both exist and are agreed. Either is
 missing → go back to `productflow:propose`.
 
-## Step 1 — Decide on design.md
+## Step 1 — Decide on the Design section
 
-Write `design.md` when the change is **architectural** — that is, when at least one of the
-criteria in `productflow:propose` Step 2 holds:
+Fill the `## Design` section of `change.md` when the change is **architectural** — that is, when
+at least one of the criteria in `productflow:propose` Step 2 holds:
 
 - The change touches two or more modules or services.
 - It adds an external dependency.
 - It changes the data model.
 - It carries a security, performance, or migration constraint.
 
-None of them holds and `pf-new-change --design` already created the file → delete it. An empty
-design document is noise that later readers will mistake for a decision record.
+None of them holds → leave the `## Design` section empty. An empty section is harmless; a
+fabricated design record is not.
 
-When you do write it, use the five sections: `Context`, `Decisions`, `Risks & Trade-offs`,
-`Migration`, `Open Questions`. Each decision states the option chosen, the options rejected, and
-why.
+When you do write it, use the five sub-sections already in the template: `### Context`,
+`### Decisions`, `### Risks & Trade-offs`, `### Migration`, `### Open Questions`. Each decision
+states the option chosen, the options rejected, and why.
 
 ## Step 2 — File map before tasks
 
@@ -92,6 +92,6 @@ Each of these is a planning defect, not a style preference:
 
 Ask the user which execution mode they want, then hand off to `productflow:apply`:
 
-- **Subagent** — a fresh agent per task with a review after each. Better isolation, more tokens.
+- **Subagent** — a fresh agent per task with a review after each task group. Better isolation, more tokens.
 - **Inline** — sequential in this session with a checkpoint after each `## <n>` group. Cheaper,
   and the only option when the harness cannot dispatch subagents.

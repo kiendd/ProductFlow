@@ -106,7 +106,7 @@ Purpose. Treat it as absent, not as content.
 | `changes/<slug>/proposal.md` | `change.md` (`## Why`, `## What Changes`, `## Scope`, `## Impact`) | `## Capabilities` → frontmatter `domains:`; `## Non-goals` → `### Out of scope` |
 | `changes/<slug>/specs/**/spec.md` (N files) | `requirements.md` (one file) | Collapse N files into one; capability id becomes each entry's `**Target**:` |
 | `changes/<slug>/tasks.md` | `tasks.md` | Heavily lossy — see below |
-| `design.md` | `design.md` | `Risks / Trade-offs` → `Risks & Trade-offs`; `Migration Plan` → `Migration`; `Goals / Non-Goals` has no target |
+| `design.md` | `change.md` `## Design` | `Risks / Trade-offs` → `Risks & Trade-offs`; `Migration Plan` → `Migration`; `Goals / Non-Goals` has no target |
 | `.openspec.yaml` `affected_areas` | frontmatter `domains:` | Lossy guess |
 | `config.yaml` `context`, `rules` | Nothing | Belongs in `AGENTS.md`, not in a PRD |
 | `project.md` (legacy) | Nothing directly | Source material for `docs/product/PRD.md` |

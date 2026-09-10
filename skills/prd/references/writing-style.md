@@ -17,7 +17,7 @@ reader and cannot be extracted by a script.
 Cut "we believe", "it should probably". A requirement either holds or it does not.
 
 **Observable behavior, not implementation.** Write what a user or a caller can see. Names of
-classes, functions, and libraries belong in `design.md`, not in a PRD.
+classes, functions, and libraries belong in the change's `## Design` section, not in a PRD.
 
 **Present tense, active voice.** "The system returns a PDF", not "a PDF will be returned".
 
@@ -52,7 +52,8 @@ Bad:
 Good:
 > **Statement**: Hệ thống PHẢI trả về file PDF của một hoá đơn đã phát hành trong vòng 3 giây.
 
-(The library and the class name go in `design.md`; the path goes in `## Implementation Map`.)
+(The library and the class name go in the change's `## Design` section; the path goes in
+`## Implementation Map`.)
 
 **3. Vague scenario that cannot become a test.**
 

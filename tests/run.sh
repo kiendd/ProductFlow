@@ -70,13 +70,13 @@ expect_code 3
 # --------------------------------------------------------------------------
 CASE="2. pf-new-change scaffolds, refuses duplicates and bad slugs"
 # --------------------------------------------------------------------------
-run pf-new-change add-invoice-pdf --design
+run pf-new-change add-invoice-pdf
 expect_code 0
-for f in change.md requirements.md design.md tasks.md; do
+for f in change.md requirements.md tasks.md; do
   expect_file "$SANDBOX/docs/changes/add-invoice-pdf/$f"
 done
 
-run pf-new-change add-invoice-pdf --design
+run pf-new-change add-invoice-pdf
 expect_code 4
 
 run pf-new-change Bad_Slug

@@ -5,7 +5,7 @@ description: Use when starting any conversation in a repository that uses Produc
 
 # ProductFlow
 
-Read `docs/product/manifest.json` first. Then route:
+Read `docs/product/index.md` first. Then route:
 
 | State | Skill |
 |---|---|
@@ -29,7 +29,7 @@ Stop if you think any of these:
 
 | Thought | Reality |
 |---|---|
-| "Simple question, no skill needed" | The manifest answers it faster |
+| "Simple question, no skill needed" | The index answers it faster |
 | "Let me look at the code first" | The docs say what the code should do |
 | "Too small for a change folder" | `propose` classifies size; you do not |
 | "I will document it afterwards" | Undocumented work cannot be archived |

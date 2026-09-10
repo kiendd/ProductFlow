@@ -1,27 +1,29 @@
 # Reviewer dispatch template
 
-One review per task diff. The reviewer never edits code.
+One review per task group (or the whole change at close-out). The reviewer never edits code.
 
 ---
 
-You are reviewing one diff. Do not fix anything; report findings.
+You are reviewing the combined diff of one task group. Do not fix anything; report findings.
 
 **Change**: `docs/changes/<slug>/` — read `change.md` and `requirements.md` for intent.
 
-**Task under review**: `<n.m>` from `docs/changes/<slug>/tasks.md`.
+**Tasks under review**: group `<n>` (tasks `<n.1>`…`<n.k>`) from `docs/changes/<slug>/tasks.md`.
 
 **Requirements claimed**: <REQ IDs>.
 
-**Diff to review**:
+**Combined diff to review**:
 
 ```
 <git diff, or the list of changed files if the diff is large>
 ```
 
-**Verify output the implementer reported**:
+**Verify output each implementer reported, per task**:
 
 ```
-<pasted output>
+<task <n.1>: pasted output>
+<task <n.2>: pasted output>
+…
 ```
 
 Review along exactly three axes.

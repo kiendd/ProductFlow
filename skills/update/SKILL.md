@@ -5,10 +5,11 @@ description: Use when an existing change's proposal, requirements, design, or ta
 
 # Updating a change
 
-Revise the four artifacts in `docs/changes/<slug>/` so they describe reality again.
+Revise the three artifacts in `docs/changes/<slug>/` so they describe reality again.
 
-**This skill never touches code.** It edits `change.md`, `requirements.md`, `design.md`,
-`tasks.md`, and appends notes to `.productflow/runs/<slug>/progress.md`. Nothing else.
+**This skill never touches code.** It edits `change.md` (including its `## Design` and
+`## Outcome` sections), `requirements.md`, `tasks.md`, and appends notes to
+`.productflow/runs/<slug>/progress.md`. Nothing else.
 
 ## Step 1 — Confirm this is your job
 
@@ -18,7 +19,7 @@ Five kinds of revision belong here:
    behavior no existing `**Statement**` covers.
 2. Change a requirement's `**Statement**`.
 3. Change `## Scope` in `change.md`.
-4. Reverse a decision in `design.md`.
+4. Reverse a decision in the `## Design` section.
 5. Add a new `## <n>` task group.
 
 Everything smaller belongs to `productflow:apply`, which handles it without a review cycle:
@@ -58,9 +59,9 @@ A revision in one artifact is never done alone. Check the others every time.
 |---|---|
 | `## Scope` in `change.md` | Every requirement in the delta that now falls outside the new scope |
 | A requirement added | `tasks.md` — it needs at least one task covering it |
-| A requirement removed | `tasks.md` — tasks pointing at it must go; `design.md` decisions that only existed for it |
+| A requirement removed | `tasks.md` — tasks pointing at it must go; `## Design` decisions that only existed for it |
 | A `**Statement**` changed | Tasks whose `— verify:` command no longer proves the statement |
-| A decision in `design.md` | Tasks that decision governs; and if the decision changes observable behavior, `requirements.md` too |
+| A decision in `## Design` | Tasks that decision governs; and if the decision changes observable behavior, `requirements.md` too |
 | A task group added | `requirements.md` — the group must trace to real REQ IDs |
 
 Also check backwards: a task you are adding that traces to no requirement means a requirement is

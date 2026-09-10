@@ -54,8 +54,8 @@ retired one, never renumber an existing requirement.
 the user sees. A reader who cannot see the code must be able to test every requirement.
 
 **Never in a PRD**: class names, function names, library choices, file layout, algorithms.
-Those belong in `design.md` while a change runs, and in `## Implementation Map` as bare paths
-afterwards.
+Those belong in the change's `## Design` section while a change runs, and in
+`## Implementation Map` as bare paths afterwards.
 
 ## Splitting the tree
 

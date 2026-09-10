@@ -14,16 +14,15 @@ import _pflib as pf
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="pf-new-change",
-        description="Create docs/changes/<slug>/ with change.md, requirements.md, tasks.md (and design.md with --design).",
+        description="Create docs/changes/<slug>/ with change.md, requirements.md, tasks.md.",
     )
     parser.add_argument("slug", help="change slug, matching ^[a-z0-9][a-z0-9-]*$")
     parser.add_argument("--title", default=None, help="human title (default: slug words capitalized)")
-    parser.add_argument("--design", action="store_true", help="also create design.md")
     parser.add_argument(
         "--classification",
         choices=sorted(pf.CHANGE_CLASSIFICATIONS),
         default=None,
-        help="bounded or architectural (default: architectural with --design, else bounded)",
+        help="bounded or architectural (default: bounded)",
     )
     return parser
 
@@ -41,7 +40,7 @@ def run(argv):
         raise pf.PfError(4, "change already exists: %s" % pf.rel(root, folder))
 
     title = args.title or slug.replace("-", " ").capitalize()
-    classification = args.classification or ("architectural" if args.design else "bounded")
+    classification = args.classification or "bounded"
     mapping = {
         "SLUG": slug,
         "TITLE": title,
@@ -53,9 +52,6 @@ def run(argv):
     for name in ["change.md", "requirements.md", "tasks.md"]:
         pf.write_text(folder / name, pf.render_template(name, mapping))
         created.append(pf.rel(root, folder / name))
-    if args.design:
-        pf.write_text(folder / "design.md", pf.render_template("design.md", mapping))
-        created.append(pf.rel(root, folder / "design.md"))
 
     pf.write_index(root, config)
 

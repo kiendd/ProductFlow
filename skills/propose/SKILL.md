@@ -20,8 +20,8 @@ itself once the classification is agreed.
 
 ## Step 1 — Read the ground first
 
-Read `docs/product/manifest.json` and list the domains and requirements the request touches.
-Quote real requirement IDs back to the user.
+Read `docs/product/index.md` and list the domains the request touches. Then open only those
+domain `PRD.md` files to quote the real requirement IDs back to the user.
 
 No `docs/product/` tree exists → stop and run `productflow:onboard` first. A proposal written
 against an unmapped codebase is guesswork.
@@ -34,7 +34,7 @@ Announce the branch before your first question so the user can overrule it.
 |---|---|---|
 | **Spike** | The answer is unknown and must be learned by trying | No files. A written recommendation, and any throwaway code clearly labelled as throwaway |
 | **Bounded** | Behavior is clear, one domain, no new architecture | `change.md` + `requirements.md` |
-| **Architectural** | Two or more modules, a new dependency, a data-model change, or a security/performance/migration constraint | `change.md` + `requirements.md`, plus an empty `design.md` scaffolded for `productflow:plan` to fill in |
+| **Architectural** | Two or more modules, a new dependency, a data-model change, or a security/performance/migration constraint | `change.md` + `requirements.md`; `productflow:plan` fills the `## Design` section of `change.md` |
 
 When unsure, take the heavier branch. If complexity surfaces mid-conversation, escalate the
 branch — never downgrade it.
@@ -49,10 +49,11 @@ branch — never downgrade it.
 | "Spike, so no docs needed" | A spike still ends in a written recommendation |
 | "The user is in a hurry" | Then a wrong branch costs them more than the proposal does |
 
-## Step 3 — Ask, one question per turn
+## Step 3 — Ask in batched turns
 
-One question per message. Prefer multiple choice with a recommended option. Never batch five
-questions into a wall.
+Group related questions into one turn instead of one per message. Prefer multiple choice with a
+recommended option. Keep each turn focused — a few related questions, not every open question at
+once.
 
 Cover, in this order: the problem behind the request, who is affected, observable behavior
 expected, edge cases and failure behavior, explicit non-goals.
@@ -77,7 +78,7 @@ Label every experimental file as throwaway and delete it before finishing.
 **Architectural**:
 
 ```bash
-../productflow/scripts/pf-new-change <slug> --design
+../productflow/scripts/pf-new-change <slug> --classification architectural
 ```
 
 Then fill in `change.md` (`## Why`, `## What Changes`, `## Scope` with in/out lists, `## Impact`)
@@ -90,7 +91,7 @@ Allocate IDs while writing the delta, so tasks and tests can reference stable ID
 ../productflow/scripts/pf-reqid <domain> --count <n>
 ```
 
-`design.md` belongs to `productflow:plan`; leave the file for that skill to fill in.
+The `## Design` section of `change.md` belongs to `productflow:plan`; leave it empty for that skill.
 
 ## Step 5 — Close
 

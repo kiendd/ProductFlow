@@ -72,17 +72,17 @@ Keep the ID. Change the title in the `### ` heading and in every reference — m
 `docs/product/PRD.md` changes when a new domain appeared or the system-level picture moved.
 Nothing changed at that level → leave it alone.
 
-## 8. Write outcome.md
+## 8. Fill the Outcome section
 
-In the change folder, from `../productflow/assets/templates/outcome.md`:
+In `change.md`, fill the `## Outcome` section (its sub-headings already exist):
 
 | Section | Content |
 |---|---|
-| `Shipped` | What a user can now do that they could not before |
-| `Requirements merged` | Each REQ ID with its destination PRD id |
-| `Deviations from plan` | Where execution differed from `tasks.md`, and why — pull the `Ruling:` lines from `.productflow/runs/<slug>/progress.md` |
-| `Commits` | The commit range or list |
-| `Follow-ups` | Known gaps, with an owner or "unassigned" |
+| `### Shipped` | What a user can now do that they could not before |
+| `### Requirements merged` | Each REQ ID with its destination PRD id |
+| `### Deviations from plan` | Where execution differed from `tasks.md`, and why — pull the `Ruling:` lines from `.productflow/runs/<slug>/progress.md` |
+| `### Commits` | The commit range or list |
+| `### Follow-ups` | Known gaps, with an owner or "unassigned" |
 
 ## 9. Run the tools
 
@@ -103,4 +103,4 @@ for recovering a broken tree, not for skipping a merge.
 - The archive path: `docs/changes/archive/<date>-<slug>/`.
 - Every REQ ID merged, and where it landed.
 - Every PRD file that changed.
-- Any follow-up recorded in `outcome.md`.
+- Any follow-up recorded in the `## Outcome` section.
