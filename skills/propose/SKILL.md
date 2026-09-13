@@ -1,6 +1,6 @@
 ---
 name: propose
-description: Use when feature work, a behavior change, or a bugfix that changes product behavior is requested and no change folder exists yet — before any implementation.
+description: Use when feature work or a behavior change is requested and no change folder exists yet — before any implementation. Bugs where the intended behavior does not move go to productflow:fix instead.
 ---
 
 # Proposing a change
@@ -45,7 +45,7 @@ branch — never downgrade it.
 |---|---|
 | "This is a one-line fix" | A one-line fix that changes behavior still changes a requirement |
 | "I already know the design" | Then writing it costs a minute and the user can disagree |
-| "Bugfix, so no requirement changes" | If the fix changes observable behavior, the requirement was wrong; fix it too |
+| "Bugfix, so no requirement changes" | If the fix changes observable behavior, the requirement was wrong; fix it too. If the requirement is right and the code is wrong, this is `productflow:fix`, not a proposal |
 | "Spike, so no docs needed" | A spike still ends in a written recommendation |
 | "The user is in a hurry" | Then a wrong branch costs them more than the proposal does |
 

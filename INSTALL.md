@@ -39,7 +39,7 @@ Real output:
 ```
 linked /Users/you/.claude/skills/apply -> /Users/you/tools/productflow/skills/apply
 linked /Users/you/.claude/skills/archive -> /Users/you/tools/productflow/skills/archive
-... 8 total
+... 9 total
 ```
 
 Because these are symlinks, `git pull` in the clone updates every project at once.
@@ -96,12 +96,12 @@ ls ~/.claude/skills/productflow/SKILL.md          # or your target
 ~/.claude/skills/productflow/scripts/pf-init --help
 ```
 
-In a new agent session, ask: *"What skills are available?"* You should see all eight.
+In a new agent session, ask: *"What skills are available?"* You should see all nine.
 Claude Code also has `/reload-skills` if a session was already open.
 
 ### Name collisions
 
-The skill names are bare verbs — `plan`, `apply`, `update`, `archive`, `prd`, `propose`,
+The skill names are bare verbs — `plan`, `apply`, `update`, `archive`, `prd`, `propose`, `fix`,
 `onboard`, `productflow` — so another plugin may already own one.
 
 `install.sh` refuses to clobber anything that is not a symlink:
@@ -195,6 +195,7 @@ Add to the project's `AGENTS.md` or `CLAUDE.md`:
 This repository uses ProductFlow. Before answering, exploring, or editing anything, read
 `docs/product/manifest.json` and follow the `productflow` skill to route to the right one.
 Behavior changes go through `propose → plan → apply → archive`, never straight into code.
+Bug reports go through `fix`: reproduce, fix, then a short proposal if the PRD was missing the case.
 ```
 
 Without this, the agent depends on the skill description firing on its own. With it, the routing
@@ -266,7 +267,7 @@ first and fail if it produces a diff — that catches a stale `manifest.json`.
 ## Uninstalling
 
 ```bash
-rm ~/.claude/skills/{productflow,propose,plan,apply,update,archive,prd,onboard}
+rm ~/.claude/skills/{productflow,propose,fix,plan,apply,update,archive,prd,onboard}
 ```
 
 Only the symlinks go. Your `docs/product/`, `docs/changes/`, and `.productflow/config.json` are
