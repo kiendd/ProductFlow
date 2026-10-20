@@ -1,6 +1,6 @@
 {
   "name": "productflow",
   "description": "Brainstorm → plan → execute → archive workflow that keeps a human- and machine-readable PRD tree in sync",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "license": "MIT"
 }

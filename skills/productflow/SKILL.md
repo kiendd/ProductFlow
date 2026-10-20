@@ -11,6 +11,7 @@ Read `docs/product/index.md` first. Then route:
 |---|---|
 | No `docs/product/` yet, or `openspec/` / `docs/superpowers/` to convert | `productflow:onboard` |
 | Bug reported: code violates a requirement, or misbehaves in an area no requirement covers | `productflow:fix` |
+| Fuzzy feature idea to explore before it can be proposed | `productflow:brainstorm` |
 | Behavior change requested, no change folder | `productflow:propose` |
 | Change has delta, no `tasks.md` | `productflow:plan` |
 | `tasks.md` has `- [ ]` | `productflow:apply` |

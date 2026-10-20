@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "docs_root": "docs/product",
+  "changes_root": "docs/changes",
+  "prd_locale": "en",
+  "requirement_prefix": "REQ"
+}

@@ -28,6 +28,7 @@ name collisions, and troubleshooting: **[INSTALL.md](INSTALL.md)**.
 | Skill | Touch it when |
 |---|---|
 | `productflow` | Opening any conversation in a repo that uses ProductFlow — routes to the right skill |
+| `brainstorm` | A new feature or idea is still fuzzy — explore the design space in rounds, then hand to `propose` |
 | `propose` | A behavior change is requested and no change folder exists yet |
 | `fix` | A bug is reported — fast lane: reproduce, fix, then check the PRD; a missing scenario, requirement, or PRD gets a short after-the-fact proposal that is archived in the same session |
 | `plan` | A change has an approved proposal and delta but no `tasks.md` |
@@ -40,11 +41,11 @@ name collisions, and troubleshooting: **[INSTALL.md](INSTALL.md)**.
 ## Flow
 
 ```
-propose  →  plan  →  apply  →  archive
-   │                   │          │
-   │                   └── update ┘   (revise artifacts mid-flight)
-   ├── fix ────────────────────────┘   (bug: red test → fix → PRD gap? short proposal → archive)
-   └── onboard first if docs/product/ does not exist (migrates OpenSpec / Superpowers docs)
+brainstorm  →  propose  →  plan  →  apply  →  archive
+               │                      │          │
+               │                      └── update ┘   (revise artifacts mid-flight)
+               ├── fix ──────────────────────────┘   (bug: red test → fix → PRD gap? short proposal → archive)
+               └── onboard first if docs/product/ does not exist (migrates OpenSpec / Superpowers docs)
 ```
 
 ## What it produces in a product repo

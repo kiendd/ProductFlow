@@ -1,0 +1,174 @@
+{
+  "generated": "2026-10-20",
+  "version": 1,
+  "locale": "en",
+  "documents": [
+    {
+      "id": "product",
+      "path": "docs/product/PRD.md",
+      "type": "product",
+      "domain": "product",
+      "parent": null,
+      "status": "draft",
+      "title": "ProductFlow",
+      "updated": "2026-10-20",
+      "implements": [],
+      "requirements": []
+    },
+    {
+      "id": "product.authoring",
+      "path": "docs/product/authoring/PRD.md",
+      "type": "domain",
+      "domain": "authoring",
+      "parent": "product",
+      "status": "draft",
+      "title": "Document format and validation",
+      "updated": "2026-10-20",
+      "implements": [
+        "skills/productflow/scripts/_pflib.py",
+        "skills/prd/references/prd-format.md"
+      ],
+      "requirements": [
+        {
+          "id": "REQ-AUTHORING-001",
+          "title": "Canonical PRD sections",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-AUTHORING-002",
+          "title": "Requirement and scenario shape",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-AUTHORING-003",
+          "title": "Unique, derived requirement IDs",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-AUTHORING-004",
+          "title": "Complete change delta",
+          "status": "active",
+          "scenarios": 2
+        },
+        {
+          "id": "REQ-AUTHORING-005",
+          "title": "Prose language follows the configured locale",
+          "status": "active",
+          "scenarios": 1
+        }
+      ]
+    },
+    {
+      "id": "product.cli",
+      "path": "docs/product/cli/PRD.md",
+      "type": "domain",
+      "domain": "cli",
+      "parent": "product",
+      "status": "draft",
+      "title": "Command-line tools",
+      "updated": "2026-10-20",
+      "implements": [
+        "skills/productflow/scripts"
+      ],
+      "requirements": [
+        {
+          "id": "REQ-CLI-001",
+          "title": "Initialize a repository once",
+          "status": "active",
+          "scenarios": 2
+        },
+        {
+          "id": "REQ-CLI-002",
+          "title": "Scaffold a change folder",
+          "status": "active",
+          "scenarios": 3
+        },
+        {
+          "id": "REQ-CLI-003",
+          "title": "Allocate collision-free requirement IDs",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-CLI-004",
+          "title": "Regenerate the index and manifest",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-CLI-005",
+          "title": "Archive only a finished, merged change",
+          "status": "active",
+          "scenarios": 3
+        },
+        {
+          "id": "REQ-CLI-006",
+          "title": "Locate the repository root from any subdirectory",
+          "status": "active",
+          "scenarios": 2
+        }
+      ]
+    },
+    {
+      "id": "product.workflow",
+      "path": "docs/product/workflow/PRD.md",
+      "type": "domain",
+      "domain": "workflow",
+      "parent": "product",
+      "status": "draft",
+      "title": "Skills and change lifecycle",
+      "updated": "2026-10-20",
+      "implements": [
+        "skills/productflow/SKILL.md",
+        "skills/brainstorm/SKILL.md",
+        "skills/propose/SKILL.md",
+        "skills/plan/SKILL.md",
+        "skills/apply/SKILL.md",
+        "skills/archive/SKILL.md",
+        "skills/fix/SKILL.md",
+        "skills/update/SKILL.md",
+        "skills/onboard/SKILL.md",
+        "skills/prd/SKILL.md"
+      ],
+      "requirements": [
+        {
+          "id": "REQ-WORKFLOW-001",
+          "title": "Route by repository state",
+          "status": "active",
+          "scenarios": 2
+        },
+        {
+          "id": "REQ-WORKFLOW-002",
+          "title": "Behavior changes go through the loop",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-WORKFLOW-003",
+          "title": "Brainstorm explores before proposing",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-WORKFLOW-004",
+          "title": "Bugs take the fast lane",
+          "status": "active",
+          "scenarios": 1
+        },
+        {
+          "id": "REQ-WORKFLOW-005",
+          "title": "Mid-flight revisions go through update",
+          "status": "active",
+          "scenarios": 1
+        }
+      ]
+    }
+  ],
+  "changes": {
+    "active": [],
+    "archived": []
+  }
+}
